@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
@@ -8,11 +6,7 @@ Devise.setup do |config|
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
-  # config.secret_key = '2d44446fd8e10ab098c9ab1628bac35e0993dd14edd581463ab3ed00259f63fd593ea0326258dac18aed01d5fb5345e94bc77f0340a49406c584edc1804b4d6f'
-  
-  # ==> Controller configuration
-  # Configure the parent class to the devise controllers.
-  # config.parent_controller = 'DeviseController'
+  # config.secret_key = '9f2cf4c4cd3c2fef9e0647ca18a09829398565a15d45149ebad47f1e002862f78e71f4b1245bf0027a44d2dde927bdf861aaf520f12f491fd7d2fa5a5f591c12'
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
@@ -114,7 +108,7 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 11
 
   # Set up a pepper to generate the hashed password.
-  # config.pepper = 'fef07f8ed725a9ed449b7be1cf41806e15924346be80f13cce73c0268679c3915887f4796237d759526c474932ab3fbbde6d0fde278fb0abd1f100ce5595ecad'
+  # config.pepper = '63310c08bbd4d0c52af5ecc16e17e76c79df2325b89d0fe5b0234eabe14bf213cd487b676d0b2a243e9c468ab8b76b98f1120840a488b2ae5c5e33fc0fef32e0'
 
   # Send a notification to the original email when the user's email is changed.
   # config.send_email_changed_notification = false
@@ -258,6 +252,11 @@ Devise.setup do |config|
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
 
+  if Rails.application.secrets.facebook_app_id.present? && Rails.application.secrets.facebook_app_secret.present? then (config.omniauth :facebook, Rails.application.secrets.facebook_app_id, Rails.application.secrets.facebook_app_secret, scope: 'email,user_posts') end 
+
+    if Rails.application.secrets.twitter_app_id.present? && Rails.application.secrets.twitter_app_secret.present? then (config.omniauth :twitter, Rails.application.secrets.twitter_app_id, Rails.application.secrets.twitter_app_secret) end 
+
+    if Rails.application.secrets.github_app_id.present? && Rails.application.secrets.github_app_secret.present? then (config.omniauth :github, Rails.application.secrets.github_app_id, Rails.application.secrets.github_app_secret) end
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.
@@ -280,11 +279,4 @@ Devise.setup do |config|
   # When using OmniAuth, Devise cannot automatically set OmniAuth path,
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = '/my_engine/users/auth'
-
-  # ==> Turbolinks configuration
-  # If your app is using Turbolinks, Turbolinks::Controller needs to be included to make redirection work correctly:
-  #
-  # ActiveSupport.on_load(:devise_failure_app) do
-  #   include Turbolinks::Controller
-  # end
 end
